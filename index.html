@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transferencia de Calor II - Convección</title>
+    
+    <!-- Carga Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuración de la fuente Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Un degradado más sobrio para la portada */
+        .cover-gradient {
+            background: linear-gradient(135deg, theme('colors.blue.800'), theme('colors.indigo.900'));
+        }
+        /* Estilos para los botones de las pestañas interactivas */
+        .tab-btn {
+            @apply px-6 py-3 font-semibold rounded-lg transition-all duration-300;
+        }
+        .tab-btn.active {
+            @apply bg-blue-800 text-white shadow-lg;
+        }
+        .tab-btn:not(.active) {
+            @apply bg-gray-400 text-gray-700 hover:bg-gray-300;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- 
+      PORTADA ACTUALIZADA: 
+      - Degradado cambiado a 'from-cyan-500 to-indigo-800' para un look más eléctrico y vibrante.
+    -->
+    <header class="text-white text-center p-12 md:p-24 shadow-lg min-h-[70vh] flex flex-col justify-center items-center bg-gradient-to-r from-cyan-500 to-indigo-800">
+        <h1 class="text-4xl md:text-6xl font-black mb-4 text-shadow-cover">Transferencia de Calor II</h1>
+        <p class="text-3xl md:text-4xl font-light max-w-3xl mx-auto mb-10 text-shadow-cover">
+            Unidad: Convección
+        </p>
+        <div class="text-xl md:text-2xl font-light text-shadow-cover">
+            <p>Profesor Ph.D. Juan Sandoval Herrera</p>
+            <p class="mt-2">Universidad de América, 2025</p>
+        </div>
+    </header>
+
+
+    <!-- Barra de Navegación Sticky -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-md">
+        <div class="container mx-auto px-6 py-3 flex justify-center items-center flex-wrap gap-x-6 gap-y-2">
+            <a href="#conceptos" class="font-semibold text-gray-700 hover:text-blue-600 transition-colors">Conceptos</a>
+            <a href="#capas_limite" class="font-semibold text-gray-700 hover:text-blue-600 transition-colors">Capas Límite</a>
+            <a href="#numeros" class="font-semibold text-gray-700 hover:text-blue-600 transition-colors">Números</a>
+            <a href="#ejemplos" class="font-semibold text-gray-700 hover:text-blue-600 transition-colors">Ejemplos</a>
+            <a href="#ejercicio" class="font-semibold text-gray-700 hover:text-blue-600 transition-colors">Ejercicio</a>
+            <a href="#quiz" class="font-semibold text-gray-700 hover:text-blue-600 transition-colors">Quiz</a>
+            <a href="#bibliografia" class="font-semibold text-gray-700 hover:text-blue-600 transition-colors">Bibliografía</a>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="container mx-auto p-6 md:p-12">
+
+        <!-- Sección 1: Conceptos de Convección -->
+        <section id="conceptos" class="mb-16 pt-16 -mt-16">
+            <div class="bg-white p-8 rounded-xl shadow-xl border border-gray-200">
+                <h2 class="text-3xl font-bold text-blue-700 mb-4">¿Qué es exactamente la Convección?</h2>
+                <p class="text-lg mb-4">
+                    En palabras simples, la convección es la <strong>transferencia de calor gracias al movimiento de un fluido</strong> (como líquido o gas).
+                </p>
+                <p class="text-lg bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
+                    <strong>Analogía amigable:</strong> Imagina que el calor es un paquete y el fluido es un repartidor. La convección es el proceso de "delivery" de ese paquete de calor de un lugar a otro.
+                </p>
+            </div>
+            
+            <h2 class="text-3xl font-bold text-center text-gray-800 mt-16 mb-8">No toda la convección es igual: Forzada vs. Natural</h2>
+            <p class="text-lg text-center max-w-2xl mx-auto mb-8">
+                El "repartidor" (fluido) puede moverse por dos razones principales. ¡Haz clic para descubrir cuáles son!
+            </p>
+
+            <!-- Pestañas Convección Forzada vs Natural -->
+            <div class="bg-white p-8 rounded-xl shadow-xl border border-gray-200 max-w-4xl mx-auto">
+                
+                <div class="flex justify-center space-x-4 mb-6">
+                    <button id="btnForzada" class="tab-btn active">💨 Convección Forzada</button>
+                    <button id="btnNatural" class="tab-btn">☀️ Convección Natural (o Libre)</button>
+                </div>
+
+                <!-- Contenido Convección Forzada -->
+                <div id="contentForzada">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <img src="https." 
+                             alt="[Imagen de un ventilador soplando aire sobre una placa]" 
+                             class="w-full md:w-1/2 rounded-lg shadow-md"
+                             onerror="this.src='https://placehold.co/400x300/EFE2FF/6366F1?text=Convección+Forzada'">
+                        <div class="w-full md:w-1/2">
+                            <h3 class="text-2xl font-bold text-blue-700 mb-3">Convección Forzada</h3>
+                            <p class="text-lg mb-2">Aquí, <strong>forzamos</strong> al fluido a moverse usando un medio externo.</p>
+                            <ul class="list-disc list-inside text-lg space-y-2">
+                                <li><strong>Ejemplo Clásico:</strong> Un ventilador soplando aire sobre una placa caliente.</li>
+                                <li><strong>Tu vida diaria:</strong> Usar un secador de pelo o el ventilador de tu computadora.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenido Convección Natural -->
+                <div id="contentNatural" class="hidden">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <img src="https." 
+                             alt="[Imagen de aire caliente subiendo desde una placa]" 
+                             class="w-full md:w-1/2 rounded-lg shadow-md"
+                             onerror="this.src='https://placehold.co/400x300/FFFBEB/F59E0B?text=Convección+Natural'">
+                        <div class="w-full md:w-1/2">
+                            <h3 class="text-2xl font-bold text-amber-600 mb-3">Convección Natural (o Libre)</h3>
+                            <p class="text-lg mb-2">Aquí, el fluido se mueve <strong>por su cuenta</strong> debido a diferencias de densidad (¡lo caliente sube y lo frío baja!).</p>
+                            <ul class="list-disc list-inside text-lg space-y-2">
+                                <li><strong>Ejemplo Clásico:</strong> El aire caliente que sube de una placa caliente sin ventilador.</li>
+                                <li><strong>Tu vida diaria:</strong> El agua hirviendo en una olla o el aire caliente subiendo de un radiador.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 2: Capas Límite -->
+        <section id="capas_limite" class="mb-16 pt-16 -mt-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Las "Zonas de Fricción": Capas Límite</h2>
+            <p class="text-lg text-center max-w-2xl mx-auto mb-8">
+                Cuando un fluido pasa sobre una superficie, no todo se mueve igual. Se crean dos "capas límite" muy importantes.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                
+                <!-- Capa Límite de Velocidad -->
+                <div class="bg-white p-8 rounded-xl shadow-xl border border-gray-200">
+                    <h3 class="text-2xl font-bold text-purple-700 mb-4">1. Capa Límite de Velocidad</h3>
+                    <p class="text-lg mb-4">Es la región donde el fluido "frena" debido a la fricción con la superficie. Justo en la superficie, la velocidad es CERO, y va aumentando hasta alcanzar la velocidad total del fluido.</p>
+                    <img src="https." 
+                         alt="[Diagrama de la capa límite de velocidad]" 
+                         class="w-full rounded-lg shadow-md"
+                         onerror="this.src='https://placehold.co/400x250/F3E8FF/8B5CF6?text=Diagrama+de+Velocidad'">
+                </div>
+
+                <!-- Capa Límite Térmica -->
+                <div class="bg-white p-8 rounded-xl shadow-xl border border-gray-200">
+                    <h3 class="text-2xl font-bold text-teal-700 mb-4">2. Capa Límite Térmica</h3>
+                    <p class="text-lg mb-4">Es la región donde la temperatura del fluido cambia, adaptándose a la temperatura de la superficie. Varía desde la temperatura de la superficie hasta la temperatura original del fluido.</p>
+                    <img src="https." 
+                         alt="[Diagrama de la capa límite térmica]" 
+                         class="w-full rounded-lg shadow-md"
+                         onerror="this.src='https://placehold.co/400x250/E0F2F1/14B8A6?text=Diagrama+de+Temperatura'">
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 3: Números Adimensionales y Tutor de IA -->
+        <section id="numeros" class="mb-16 pt-16 -mt-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Los "Números Clave" de la Convección</h2>
+            <p class="text-lg text-center max-w-2xl mx-auto mb-8">
+                Para entender y predecir la convección, los ingenieros usan "números adimensionales". Son como códigos secretos que nos dicen cómo se comporta el fluido. ¡Presiona los botones para revelar su significado o usa el tutor IA!
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                
+                <!-- Número de Reynolds (Re) -->
+                <div class="bg-white p-6 rounded-xl shadow-xl border border-gray-200 text-center">
+                    <h3 class="text-5xl font-black text-red-600 mb-2">Re</h3>
+                    <h4 class="text-xl font-bold mb-4">Número de Reynolds</h4>
+                    <button class="toggle-btn bg-red-500 text-white px-5 py-2 rounded-lg font-semibold hover:bg-red-600 transition-all" data-target="descRe">
+                        ¿Qué significa?
+                    </button>
+                    <div id="descRe" class="hidden mt-4 bg-red-50 p-4 rounded-lg border-l-4 border-red-400 text-left">
+                        <p class="font-bold">Relación:</p>
+                        <p class="mb-2">Fuerzas de Inercia / Fuerzas Viscosas</p>
+                        <p class="font-bold">En simple:</p>
+                        <p>Nos dice si el flujo es ordenado (Laminar) o caótico (Turbulento).</p>
+                    </div>
+                    <!-- Botón para el Tutor IA -->
+                    <button class="llm-tutor-btn mt-4 bg-gray-700 text-white px-5 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-all text-sm" data-number="Número de Reynolds">
+                        Explicación con IA ✨
+                    </button>
+                    <div id="llmResponseNúmero de Reynolds" class="mt-4 text-left p-3 rounded-lg bg-red-100 text-red-800 hidden"></div>
+                </div>
+
+                <!-- Número de Prandtl (Pr) -->
+                <div class="bg-white p-6 rounded-xl shadow-xl border border-gray-200 text-center">
+                    <h3 class="text-5xl font-black text-green-600 mb-2">Pr</h3>
+                    <h4 class="text-xl font-bold mb-4">Número de Prandtl</h4>
+                    <button class="toggle-btn bg-green-500 text-white px-5 py-2 rounded-lg font-semibold hover:bg-green-600 transition-all" data-target="descPr">
+                        ¿Qué significa?
+                    </button>
+                    <div id="descPr" class="hidden mt-4 bg-green-50 p-4 rounded-lg border-l-4 border-green-400 text-left">
+                        <p class="font-bold">Relación:</p>
+                        <p class="mb-2">Difusividad de Movimiento / Difusividad de Calor</p>
+                        <p class="font-bold">En simple:</p>
+                        <p>Compara qué tan rápido se mueve la velocidad vs. qué tan rápido se mueve el calor. Nos dice cuál capa límite es más gruesa.</p>
+                    </div>
+                    <!-- Botón para el Tutor IA -->
+                    <button class="llm-tutor-btn mt-4 bg-gray-700 text-white px-5 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-all text-sm" data-number="Número de Prandtl">
+                        Explicación con IA ✨
+                    </button>
+                    <div id="llmResponseNúmero de Prandtl" class="mt-4 text-left p-3 rounded-lg bg-green-100 text-green-800 hidden"></div>
+                </div>
+
+                <!-- Número de Nusselt (Nu) -->
+                <div class="bg-white p-6 rounded-xl shadow-xl border border-gray-200 text-center">
+                    <h3 class="text-5xl font-black text-indigo-600 mb-2">Nu</h3>
+                    <h4 class="text-xl font-bold mb-4">Número de Nusselt</h4>
+                    <button class="toggle-btn bg-indigo-500 text-white px-5 py-2 rounded-lg font-semibold hover:bg-indigo-600 transition-all" data-target="descNu">
+                        ¿Qué significa?
+                    </button>
+                    <div id="descNu" class="hidden mt-4 bg-indigo-50 p-4 rounded-lg border-l-4 border-indigo-400 text-left">
+                        <p class="font-bold">Relación:</p>
+                        <p class="mb-2">Calor por Convección / Calor por Conducción</p>
+                        <p class="font-bold">En simple:</p>
+                        <p>¡Es el más importante! Nos dice qué tan *efectiva* es la convección. Un Nu alto significa que la convección es mucho mejor que la conducción.</p>
+                    </div>
+                    <!-- Botón para el Tutor IA -->
+                    <button class="llm-tutor-btn mt-4 bg-gray-700 text-white px-5 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-all text-sm" data-number="Número de Nusselt">
+                        Explicación con IA ✨
+                    </button>
+                    <div id="llmResponseNúmero de Nusselt" class="mt-4 text-left p-3 rounded-lg bg-indigo-100 text-indigo-800 hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 4: Ejemplos de Aplicación -->
+        <section id="ejemplos" class="mb-16 pt-16 -mt-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Ejemplos de Aplicación</h2>
+            <p class="text-lg text-center max-w-2xl mx-auto mb-8">
+                Estos son los problemas planteados en la presentación original.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <div class="bg-white p-6 rounded-xl shadow-xl border border-gray-200">
+                    <h3 class="font-bold text-lg text-blue-700 mb-2">EJEMPLO 1</h3>
+                    <p>Una placa plana de 2 m X 3 m está sujeta en un cuarto, con aire paralelo a su superficie. La temperatura y la velocidad del aire son 20 °C y 7 m/s. La fuerza total de resistencia que actúa sobre la placa es 10 N. Determine el coeficiente promedio de convección, h.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-xl border border-gray-200">
+                    <h3 class="font-bold text-lg text-blue-700 mb-2">EJEMPLO 2</h3>
+                    <p>La glicerina a 20 °C fluye sobre una placa plana a 2 m/s. Determine el Reynolds y el espesor de la capa límite a 0.5 m del borde. Calcule también la razón de los espesores de la capa límite de la velocidad y térmica a esa distancia.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-xl border border-gray-200">
+                    <h3 class="font-bold text-lg text-blue-700 mb-2">EJEMPLO 3</h3>
+                    <p>Considere una flecha de 5 cm de diámetro que gira a 6000 rpm en una chumacera de 25 cm de largo con una holgura de 1 mm. Determine la potencia requerida para hacer girar la flecha si el fluido es a) aire, b) agua, y c) aceite a 40 °C
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-xl border border-gray-200">
+                    <h3 class="font-bold text-lg text-blue-700 mb-2">EJEMPLO 4</h3>
+                    <p>Aire a 1 atm, 5 °C y a 2 m/s fluye en paralelo a una placa plana de 1 m X 1 m. La placa tiene una temperatura de 35 °C. Si la fuerza de fricción sobre la placa es de 0.1 N, determine la razón de transferencia de calor de la placa.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 5: Ejercicio y Temporizador -->
+        <section id="ejercicio" class="mb-16 pt-16 -mt-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">¡Ponte a Prueba!</h2>
+            <div class="bg-white p-8 rounded-xl shadow-xl border border-gray-200 max-w-4xl mx-auto">
+                <h3 class="text-2xl font-bold text-blue-700 mb-4">Problema de Práctica</h3>
+                <p class="text-lg mb-4">
+                    Se debe calentar agua desde 10  °C hasta <strong>80 °C</strong> mientras fluye por un tubo de <strong>2 cm</strong> de diámetro interno y 5 m de largo. El tubo tiene un calentador de resistencia eléctrica que proporciona calentamiento uniforme. Si el sistema debe proporcionar agua caliente a razón de 10 L/min, determine:
+                </p>
+                <ul class="list-disc list-inside text-lg mb-6 space-y-2">
+                    <li>La potencia nominal del calentador de resistencia.</li>
+                    <li>La temperatura de la superficie interior del tubo a la salida.</li>
+                </ul>
+
+                <button id="iniciarTemporizadorBtn" class="w-full bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition-all text-lg">
+                    Resolveré este problema... ¡Iniciar temporizador de 5 minutos!
+                </button>
+
+                <div id="timerDisplay" class="text-center font-bold text-3xl text-gray-800 my-6"></div>
+
+                <div id="respuestaEjercicio" class="hidden mt-6 bg-gray-50 p-6 rounded-lg border border-gray-300">
+                    <h4 class="text-xl font-bold text-gray-800 mb-3">Guía para la Respuesta</h4>
+                    <p class="mb-2">¡Excelente trabajo! Aquí están los pasos clave para resolverlo:</p>
+                    <ol class="list-decimal list-inside text-lg space-y-2">
+                        <li><strong>Balance de Energía:</strong> Calcula el calor total absorbido por el agua (Q) usando la ecuación de calor sensible. Primero necesitas el flujo másico a partir del flujo volumétrico (10 L/min). Esta Q es también la potencia nominal del calentador.</li>
+                        <li><strong>Flujo y Propiedades:</strong> Determina el régimen de flujo. Calcula el número de Reynolds (Re) con las propiedades del agua a la temperatura promedio  45 °C</li>
+                        <li><strong>Tipo de Flujo:</strong> Con Re, determina si el flujo es laminar (Re < 2000) o turbulento (Re > 4000).</li>
+                        <li><strong>Número de Nusselt (Nu):</strong> Usa la correlación adecuada para flujo turbulento en un tubo (probablemente Dittus-Boelter o Gnielinski) para encontrar Nu.</li>
+                        <li><strong>Coeficiente (h):</strong> Despeja el coeficiente de convección (h) de la fórmula de Nusselt (Nu = hD/k).</li>
+                        <li><strong>Temperatura de Salida:</strong> Usa la Ley de Enfriamiento de Newton para despejar la T a la salida.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 6: Quiz Rápido -->
+        <section id="quiz" class="mb-16 pt-16 -mt-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Quiz Rápido</h2>
+            <div class="bg-white p-8 rounded-xl shadow-xl border border-gray-200 max-w-4xl mx-auto">
+                <form id="quizForm">
+                    <!-- Pregunta 1 -->
+                    <div class="mb-6">
+                        <p class="text-xl font-semibold mb-3">1. ¿Qué número adimensional compara las fuerzas de inercia con las fuerzas viscosas?</p>
+                        <div class="space-y-2">
+                            <label class="flex items-center text-lg"><input type="radio" name="q1" value="a" class="mr-3"> a) Número de Nusselt</label>
+                            <label class="flex items-center text-lg"><input type="radio" name="q1" value="b" class="mr-3"> b) Número de Prandtl</label>
+                            <label class="flex items-center text-lg"><input type="radio" name="q1" value="c" class="mr-3"> c) Número de Reynolds</label>
+                        </div>
+                    </div>
+                    <!-- Pregunta 2 -->
+                    <div class="mb-6">
+                        <p class="text-xl font-semibold mb-3">2. La convección "natural" o "libre" ocurre principalmente debido a...</p>
+                        <div class="space-y-2">
+                            <label class="flex items-center text-lg"><input type="radio" name="q2" value="a" class="mr-3"> a) Un ventilador o una bomba</label>
+                            <label class="flex items-center text-lg"><input type="radio" name="q2" value="b" class="mr-3"> b) Diferencias de densidad en el fluido</label>
+                            <label class="flex items-center text-lg"><input type="radio" name="q2" value="c" class="mr-3"> c) La rugosidad de la superficie</label>
+                        </div>
+                    </div>
+                    <!-- Pregunta 3 -->
+                    <div class="mb-6">
+                        <p class="text-xl font-semibold mb-3">3. En la capa límite de velocidad, la velocidad del fluido *exactamente sobre la superficie* de la placa es:</p>
+                        <div class="space-y-2">
+                            <label class="flex items-center text-lg"><input type="radio" name="q3" value="a" class="mr-3"> a) 0.99 veces la velocidad de la corriente libre</label>
+                            <label class="flex items-center text-lg"><input type="radio" name="q3" value="b" class="mr-3"> b) La misma que la corriente libre</label>
+                            <label class="flex items-center text-lg"><input type="radio" name="q3" value="c" class="mr-3"> c) Cero</label>
+                        </div>
+                    </div>
+                    <!-- Pregunta 4 -->
+                    <div class="mb-6">
+                        <p class="text-xl font-semibold mb-3">4. Un Número de Nusselt ($Nu$) muy alto significa que:</p>
+                        <div class="space-y-2">
+                            <label class="flex items-center text-lg"><input type="radio" name="q4" value="a" class="mr-3"> a) La transferencia por convección es mucho más efectiva que la conducción</label>
+                            <label class="flex items-center text-lg"><input type="radio" name="q4" value="b" class="mr-3"> b) La transferencia por conducción es mucho más efectiva que la convección</label>
+                            <label class="flex items-center text-lg"><input type="radio" name="q4" value="c" class="mr-3"> c) El flujo es definitivamente laminar</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 transition-all text-lg">
+                        ¡Calificar mi Quiz!
+                    </button>
+                </form>
+
+                <div id="quizResultado" class="hidden text-center mt-6 p-6 rounded-lg text-2xl font-bold">
+                    <!-- Resultado del Quiz se insertará aquí -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 7: Bibliografía -->
+        <section id="bibliografia" class="mb-16 pt-16 -mt-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Bibliografía Recomendada</h2>
+            <div class="bg-white p-8 rounded-xl shadow-xl border border-gray-200 max-w-4xl mx-auto">
+                <ul class="list-disc list-inside text-lg space-y-3">
+                    <li>Çengel, Y. A., & Ghajar, A. J. (2015). <i>Heat and Mass Transfer: Fundamentals & Applications</i>. McGraw-Hill Education.</li>
+                    <li>Incropera, F. P., DeWitt, D. P., Bergman, T. L., & Lavine, A. S. (2013). <i>Fundamentals of Heat and Mass Transfer</i>. Wiley.</li>
+                    <li>Welty, J. R., Wicks, C. E., Wilson, R. E., & Rorrer, G. L. (2008). <i>Fundamentals of Momentum, Heat, and Mass Transfer</i>. Wiley.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center p-8 bg-gray-800 text-gray-300 mt-12">
+        <p>Página interactiva para el curso de Transferencia de Calor II.</p>
+        <p class="mt-1">Basado en el material del Profesor Ph.D. Juan Sandoval Herrera. Universidad de América, 2025.</p>
+    </footer>
+
+    <!-- Script de Funcionalidad y Tutor IA (Corregido) -->
+    <script>
+        // La clave API se define como una cadena vacía, Canvas la proporcionará en tiempo de ejecución.
+        const apiKey = "";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        const systemPrompt = "Actúa como un tutor experto en Transferencia de Calor. Tu tono es amigable, didáctico y motivador. Genera una explicación sencilla y una analogía de la vida real, concisa (máximo 4-5 líneas) para el número adimensional que se te solicita. Utiliza la sintaxis de LaTeX para los números adimensionales ($Re$, $Pr$, $Nu$) y unidades.";
+
+        /**
+         * Realiza la llamada a la API de Gemini con reintentos de retroceso exponencial.
+         * @param {string} userQuery - La pregunta del usuario para el modelo.
+         * @param {string} numberName - El nombre del número (Re, Pr, Nu) para la instrucción del sistema.
+         * @returns {Promise<string|null>} El texto generado o null si falla.
+         */
+        async function makeGeminiApiCall(userQuery, numberName) {
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            for (let i = 0; i < 3; i++) { // Intentar 3 veces
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 429 && i < 2) {
+                            // Demasiadas solicitudes, intentar de nuevo después de un retraso
+                            const delay = Math.pow(2, i) * 1000;
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                            continue;
+                        }
+                        console.error(`Error en la API de Gemini: ${response.status} ${response.statusText}`);
+                        return `Error: No se pudo obtener la explicación del ${numberName}.`;
+                    }
+
+                    const result = await response.json();
+                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                    return text || `Error: La respuesta del ${numberName} está vacía.`;
+
+                } catch (error) {
+                    console.error("Error al realizar la llamada a la API:", error);
+                    return `Error: Problema de conexión al obtener la explicación del ${numberName}.`;
+                }
+            }
+            return `Error: Falló al intentar obtener la explicación del ${numberName} después de varios reintentos.`;
+        }
+        
+        // ENVUELVE TODA LA LÓGICA DEL DOM DENTRO DE DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Lógica de los Botones del Tutor IA ---
+            document.querySelectorAll('.llm-tutor-btn').forEach(button => {
+                const numberName = button.getAttribute('data-number');
+                // Se corrigió el uso del ID completo para que coincida con la estructura (e.g., llmResponseNúmero de Reynolds)
+                const responseDiv = document.getElementById(`llmResponse${numberName}`);
+
+                if (!responseDiv) {
+                    console.error(`No se encontró el elemento de respuesta para: ${numberName}`);
+                    return; 
+                }
+
+                button.addEventListener('click', async () => {
+                    // 1. Mostrar/Ocultar y alternar contenido
+                    const isHidden = responseDiv.classList.contains('hidden');
+                    
+                    if (!isHidden) {
+                        responseDiv.classList.add('hidden');
+                        button.textContent = `Explicación con IA ✨`;
+                        return;
+                    }
+
+                    // 2. Mostrar estado de carga
+                    responseDiv.classList.remove('hidden');
+                    responseDiv.innerHTML = `Cargando explicación para el ${numberName}...`;
+                    button.textContent = `Cargando...`;
+                    button.disabled = true;
+
+                    // 3. Llamada a la API de Gemini
+                    const query = `Proporciona una explicación de la vida real y una analogía para el ${numberName} de la transferencia de calor.`;
+                    const explanation = await makeGeminiApiCall(query, numberName);
+
+                    // 4. Mostrar respuesta
+                    responseDiv.innerHTML = explanation;
+                    button.textContent = `Ocultar Explicación ✨`;
+                    button.disabled = false;
+                });
+            });
+
+
+            // --- Lógica para las pestañas de Tipos de Convección ---
+            const btnForzada = document.getElementById('btnForzada');
+            const btnNatural = document.getElementById('btnNatural');
+            const contentForzada = document.getElementById('contentForzada');
+            const contentNatural = document.getElementById('contentNatural');
+
+            if (btnForzada && btnNatural && contentForzada && contentNatural) {
+                btnForzada.addEventListener('click', () => {
+                    contentForzada.classList.remove('hidden');
+                    contentNatural.classList.add('hidden');
+                    btnForzada.classList.add('active');
+                    btnNatural.classList.remove('active');
+                });
+
+                btnNatural.addEventListener('click', () => {
+                    contentNatural.classList.remove('hidden');
+                    contentForzada.classList.add('hidden');
+                    btnNatural.classList.add('active');
+                    btnForzada.classList.remove('active');
+                });
+            }
+
+            // --- Lógica para los botones de "Números Clave" ---
+            document.querySelectorAll('.toggle-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target');
+                    const targetDiv = document.getElementById(targetId);
+                    if (targetDiv) {
+                        targetDiv.classList.toggle('hidden');
+                    }
+                });
+            });
+
+            // --- Lógica para el Temporizador del Ejercicio ---
+            const btnIniciarTimer = document.getElementById('iniciarTemporizadorBtn');
+            const timerDisplay = document.getElementById('timerDisplay');
+            const respuestaEjercicio = document.getElementById('respuestaEjercicio');
+            let timerInterval;
+
+            if (btnIniciarTimer && timerDisplay && respuestaEjercicio) {
+                btnIniciarTimer.addEventListener('click', () => {
+                    // Limpiar cualquier intervalo anterior para evitar múltiples timers
+                    if (timerInterval) {
+                        clearInterval(timerInterval);
+                    }
+                    
+                    btnIniciarTimer.disabled = true;
+                    btnIniciarTimer.innerHTML = "¡Tiempo corriendo!";
+                    btnIniciarTimer.classList.add('opacity-50', 'cursor-not-allowed');
+                    respuestaEjercicio.classList.add('hidden'); // Ocultar la respuesta si se reinicia
+                    timerDisplay.classList.remove('text-green-600');
+                    timerDisplay.innerHTML = `5:00`;
+
+                    let timeLeft = 300; // 5 minutos = 300 segundos
+
+                    timerInterval = setInterval(() => {
+                        timeLeft--;
+                        const minutes = Math.floor(timeLeft / 60);
+                        let seconds = timeLeft % 60;
+                        seconds = seconds < 10 ? '0' + seconds : seconds;
+                        
+                        timerDisplay.innerHTML = `${minutes}:${seconds}`;
+
+                        if (timeLeft <= 0) {
+                            clearInterval(timerInterval);
+                            timerDisplay.innerHTML = "¡Tiempo Cumplido!";
+                            timerDisplay.classList.add('text-green-600');
+                            respuestaEjercicio.classList.remove('hidden');
+                            btnIniciarTimer.classList.add('hidden'); // Ocultar el botón después de finalizar
+                        }
+                    }, 1000); // Actualiza cada segundo
+                });
+            }
+
+
+            // --- Lógica para el Cuestionario (Quiz) ---
+            const quizForm = document.getElementById('quizForm');
+            const quizResultado = document.getElementById('quizResultado');
+
+            if (quizForm && quizResultado) {
+                quizForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    const correctAnswers = {
+                        q1: 'c',
+                        q2: 'b',
+                        q3: 'c',
+                        q4: 'a'
+                    };
+
+                    let score = 0;
+                    const formData = new FormData(quizForm);
+                    
+                    for (const [question, userAnswer] of formData.entries()) {
+                        if (userAnswer === correctAnswers[question]) {
+                            score++;
+                        }
+                    }
+
+                    quizResultado.innerHTML = `¡Obtuviste ${score} de 4 preguntas correctas!`;
+                    quizResultado.classList.remove('hidden');
+
+                    // Cambiar color basado en el puntaje
+                    if (score === 4) {
+                        quizResultado.classList.add('bg-green-100', 'text-green-800');
+                        quizResultado.classList.remove('bg-red-100', 'text-red-800');
+                    } else {
+                        quizResultado.classList.add('bg-red-100', 'text-red-800');
+                        quizResultado.classList.remove('bg-green-100', 'text-green-800');
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
